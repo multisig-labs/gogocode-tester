@@ -1,0 +1,15 @@
+# General
+_private
+.DS_Store
+.env
+.envrc
+bin
+cache
+coverage
+coverage.json
+
+.vscode/extensions.json
+.vscode/launch.json
+.vscode/settings.json
+.vscode/*.log
+
