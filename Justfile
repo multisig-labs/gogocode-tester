@@ -9,5 +9,4 @@ default:
   @just --list --unsorted
 
 build:
-	go mod tidy
-	go build -ldflags "{{LDFLAGS}}" -o bin/blockchain-tester main.go
+  go build -ldflags "{{LDFLAGS}}" -o bin/gogocode-tester main.go

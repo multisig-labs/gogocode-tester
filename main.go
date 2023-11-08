@@ -1,8 +1,6 @@
 package main
 
 import (
-	"strings"
-
 	"flag"
 	"fmt"
 	"os"
@@ -10,26 +8,26 @@ import (
 	"runtime/debug"
 
 	"github.com/jxskiss/mcli"
-	"github.com/multisig-labs/blockchain-tester/internal"
-	"github.com/multisig-labs/blockchain-tester/pkg/version"
+	"github.com/multisig-labs/gogocode-tester-sample/pkg/testcase_sample"
+	"github.com/multisig-labs/gogocode-tester-sample/pkg/version"
 )
 
 func main() {
 	defer handlePanic()
-	mcli.Add("test", testCmd, "Run the tester against a binary")
+	mcli.Add("sample", testSampleCmd, "Run the tester for course Sample against a binary. Returns slug of last successful test case")
 	mcli.Add("version", versionCmd, "Display version")
-	mcli.AddHelp()
-	mcli.AddCompletion()
 	mcli.Run()
 }
 
-func testCmd() {
+func testSampleCmd() {
 	args := struct {
-		Stage      string `cli:"--stage, Stage to test"`
-		Executable string `cli:"--exe, Executable to test"`
+		Executable string `cli:"--exe, Executable to test" default:"./run.sh"`
 	}{}
 	mcli.Parse(&args, mcli.WithErrorHandling(flag.ExitOnError))
-	handleError(internal.RunTestCases(args.Executable, args.Stage))
+
+	// Ignore error (its already been logged) and return last successful stage slug
+	slug, _ := testcase_sample.RunTestCases(args.Executable)
+	fmt.Print(slug)
 }
 
 func versionCmd() {
@@ -38,13 +36,6 @@ func versionCmd() {
 	fmt.Println("Version:", version.Version)
 	fmt.Println("Go Version:", version.GoVersion)
 	fmt.Println("OS / Arch:", version.OsArch)
-}
-
-func handleError(err error) {
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
 }
 
 func handlePanic() {
@@ -64,15 +55,4 @@ func handlePanic() {
 		fmt.Fprintln(os.Stderr, stack)
 		os.Exit(1)
 	}
-}
-
-func envMap() map[string]string {
-	result := make(map[string]string)
-	for _, keyVal := range os.Environ() {
-		split := strings.SplitN(keyVal, "=", 2)
-		key, val := split[0], split[1]
-		result[key] = val
-	}
-
-	return result
 }
