@@ -16,7 +16,7 @@ func stageEchoString(stageHarness *testtools.StageHarness) error {
 	}
 
 	if result.ExitCode != 0 {
-		return fmt.Errorf("expected exit code %v, got %v", 0, result.ExitCode)
+		return fmt.Errorf("expected exit code %v, got %v  err=%s", 0, result.ExitCode, result.Stderr)
 	}
 
 	if !bytes.Equal(result.Stdout, []byte("dog")) {

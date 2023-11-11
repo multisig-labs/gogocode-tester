@@ -10,3 +10,4 @@ default:
 
 build:
   go build -ldflags "{{LDFLAGS}}" -o bin/gogocode-tester main.go
+  GOOS=linux GOARCH=amd64 go build -ldflags "{{LDFLAGS}}" -o bin/gogocode-tester-linux-amd64 main.go
