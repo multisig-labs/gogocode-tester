@@ -22,6 +22,10 @@ var testCases = []testtools.TestCase{
 		Slug:     "echo-modified-string",
 		TestFunc: stageEchoModifiedString,
 	},
+	{
+		Slug:     "echo-modified-string-2",
+		TestFunc: stageEchoModifiedString2,
+	},
 }
 
 // func GetNextStage(slug string) (string, error) {

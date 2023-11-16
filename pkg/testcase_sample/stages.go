@@ -46,3 +46,23 @@ func stageEchoModifiedString(stageHarness *testtools.StageHarness) error {
 	stageHarness.Logger.Successf("✓ Received exit code %d.", 0)
 	return nil
 }
+
+func stageEchoModifiedString2(stageHarness *testtools.StageHarness) error {
+	stageHarness.Logger.Infof("$ ./run.sh \"%s\"", "bird")
+
+	result, err := stageHarness.Executable.Run("bird")
+	if err != nil {
+		return err
+	}
+
+	if result.ExitCode != 0 {
+		return fmt.Errorf("expected exit code %v, got %v", 0, result.ExitCode)
+	}
+
+	if !bytes.Equal(result.Stdout, []byte("dog")) {
+		return fmt.Errorf("expected 'dog', got '%s'", string(result.Stdout))
+	}
+
+	stageHarness.Logger.Successf("✓ Received exit code %d.", 0)
+	return nil
+}
